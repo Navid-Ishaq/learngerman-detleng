@@ -2,3 +2,7 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 .header-actions{display:flex;align-items:center;gap:9px}.study-guide-cta{display:inline-flex;align-items:center;gap:7px;padding:10px 15px;border:1px solid #cfd8e5;border-radius:10px;background:white;color:var(--navy);font-size:.87rem;font-weight:700;box-shadow:0 5px 18px rgba(7,26,54,.06);transition:transform .2s,border-color .2s,box-shadow .2s}.study-guide-cta span{color:var(--red)}.study-guide-cta:hover{transform:translateY(-2px);border-color:#a9b8cb;box-shadow:0 9px 22px rgba(7,26,54,.1)}
 @media(max-width:720px){.header-actions{gap:6px}.study-guide-cta{font-size:.76rem;padding:9px 10px}}
+
+/* DETLENG branding update — isolated to logo, preserves layout */
+.detleng-brand-image{display:block;width:auto;height:52px;max-width:min(210px,42vw);object-fit:contain;object-position:left center}
+@media(max-width:720px){.detleng-brand-image{height:43px;max-width:min(170px,42vw)}}
