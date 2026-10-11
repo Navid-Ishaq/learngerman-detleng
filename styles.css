@@ -6,3 +6,14 @@
 /* DETLENG branding update — isolated to logo, preserves layout */
 .detleng-brand-image{display:block;width:auto;height:52px;max-width:min(210px,42vw);object-fit:contain;object-position:left center}
 @media(max-width:720px){.detleng-brand-image{height:43px;max-width:min(170px,42vw)}}
+
+/* Ecosystem navigation — scoped to the homepage header. */
+.site-header .header-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:flex-end}
+.site-header .ecosystem-cta{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 13px;border:1px solid #cfd8e5;border-radius:10px;background:#fff;color:var(--navy);font-size:.82rem;font-weight:700;white-space:nowrap;transition:border-color .2s,background .2s}
+.site-header .ecosystem-cta span{color:var(--red)}
+.site-header .ecosystem-cta:hover{border-color:#a9b8cb;background:#f6f8fc}
+.site-header .header-cta{white-space:nowrap}
+.site-header .ecosystem-cta:focus-visible,.site-header .header-cta:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+@media(max-width:1200px){.site-header{height:auto;min-height:78px;gap:12px;padding-top:12px;padding-bottom:12px}.site-header nav{gap:16px}.site-header .header-actions{max-width:60%}.site-header .ecosystem-cta{font-size:.76rem;padding:8px 10px}}
+@media(max-width:720px){.site-header{height:auto;min-height:68px;align-items:center;gap:8px}.site-header .detleng-brand-image{max-width:min(150px,39vw)}.site-header .header-actions{max-width:58%;gap:5px}.site-header .header-cta{font-size:.72rem;padding:7px 9px}.site-header .header-cta span{font-size:.8rem;margin-left:2px}.site-header .ecosystem-cta{font-size:.68rem;padding:6px 8px}.site-header .ecosystem-cta span{font-size:.73rem}}
+@media(max-width:420px){.site-header .header-actions{max-width:59%}.site-header .ecosystem-cta{font-size:.63rem}}
