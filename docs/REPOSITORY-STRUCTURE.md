@@ -18,7 +18,7 @@
 1. Place JS lesson data at `lessons/ch-NNN/lesson.js`, keeping registration ID `lesson-NNN`.
 2. Keep Markdown master in `docs/chapters/ch-NNN/MASTER.md`.
 3. Add exactly one script tag in `lesson.html` before `lesson-engine/lesson.js`.
-4. Activate the link in `app.js` for the corresponding curriculum chapter.
+4. Add the chapter number to `availableChapters` in `app.js` so its curriculum button becomes a live link (unreleased chapters show a polite preparation notice).
 5. Preserve lesson IDs and storage keys to retain existing progress.
 6. Run `node --check` for modified JavaScript, verify relative script paths and test the three prior chapters in browser.
 

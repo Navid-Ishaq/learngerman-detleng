@@ -15,11 +15,25 @@ function render(){
   });
   outlineEl.innerHTML=filtered.map((part,index)=>{
     const matchingChapters=query?part.chapters.filter(c=>[c.title,...(c.topics||[])].join(' ').toLowerCase().includes(query)):part.chapters;
-    const chapters=(matchingChapters.length?matchingChapters:part.chapters).map(c=>`<article class="chapter"><div><h3>${([1,2,3].includes(c.number)||(!c.number&&part.label==='START HERE'))?`<a class="chapter-link" href="lesson.html?id=${c.number===1?'lesson-001':c.number===2?'lesson-002':c.number===3?'lesson-003':'front-matter-how-to-use-this-course'}">${esc(c.title)} <span aria-hidden="true">↗</span></a>`:esc(c.title)}</h3>${c.topics?.length?`<ul>${c.topics.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`:''}</div><span class="chapter-no">${c.number?`CH ${String(c.number).padStart(3,'0')}`:'COURSE ELEMENT'}</span></article>`).join('');
+    const availableChapters = new Set([1,2,3]);
+    const chapters=(matchingChapters.length?matchingChapters:part.chapters).map(c=>{
+      const isStart=!c.number&&part.label==='START HERE';
+      const ready=isStart||availableChapters.has(c.number);
+      const href=isStart?'lesson.html?id=front-matter-how-to-use-this-course':`lesson.html?id=lesson-${String(c.number).padStart(3,'0')}`;
+      const chapterTitle=ready
+        ? `<a class="chapter-link" href="${href}">${esc(c.title)} <span aria-hidden="true">↗</span></a>`
+        : `<button class="chapter-pending" type="button" data-pending-chapter="${esc(c.title)}" aria-label="${esc(c.title)} — lesson being prepared">${esc(c.title)} <span aria-hidden="true">↗</span></button>`;
+      return `<article class="chapter"><div><h3>${chapterTitle}</h3>${c.topics?.length?`<ul>${c.topics.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`:''}</div><span class="chapter-no">${c.number?`CH ${String(c.number).padStart(3,'0')}`:'COURSE ELEMENT'}</span></article>`;
+    }).join('');
     return `<section class="part ${query||allExpanded?'open':''}" data-index="${index}"><button class="part-head" type="button" aria-expanded="${query||allExpanded}"><span class="part-no">${esc(part.label)}</span><span class="part-title"><b>${esc(part.title)}</b><small>${esc(part.subtitle||'')} · ${part.chapters.length} ${part.chapters.length===1?'item':'items'}</small></span><span class="toggle" aria-hidden="true">＋</span></button><div class="part-body">${chapters}</div></section>`;
   }).join('');
   countEl.textContent=filtered.length;
   noResults.hidden=filtered.length!==0;
+  outlineEl.querySelectorAll('[data-pending-chapter]').forEach(btn=>btn.addEventListener('click',()=>{
+    const note=document.getElementById('lesson-coming-soon');
+    note.querySelector('.coming-soon-title').textContent=btn.dataset.pendingChapter;
+    note.hidden=false;note.focus();
+  }));
   outlineEl.querySelectorAll('.part-head').forEach(btn=>btn.addEventListener('click',()=>{
     const part=btn.closest('.part'); part.classList.toggle('open'); btn.setAttribute('aria-expanded',part.classList.contains('open'));
   }));
@@ -31,6 +45,7 @@ document.querySelectorAll('.filter').forEach(btn=>btn.addEventListener('click',(
 searchEl.addEventListener('input',render);
 document.querySelector('#expand-all').addEventListener('click',e=>{allExpanded=!allExpanded;e.currentTarget.innerHTML=`${allExpanded?'Collapse':'Expand'} all <span>${allExpanded?'−':'＋'}</span>`;render()});
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();searchEl.focus()}});
+document.getElementById('coming-soon-close')?.addEventListener('click',()=>{document.getElementById('lesson-coming-soon').hidden=true;});
 const lessonSteps=['Learning Goals','English Connection','Key Vocabulary','Grammar Made Clear','Pattern Box','See It in Action','Break It Down','Pronunciation Focus','English vs German','Common Mistake Alert','Memory Trick','Guided Practice','Translation Practice','Real-Life Dialogue','Speak It','Write It','Real-Life Mission','Mini Quiz','Key Takeaways','Confidence Check'];
 document.querySelector('#lesson-steps').innerHTML=lessonSteps.map((s,i)=>`<div class="lesson-step"><span>${String(i+1).padStart(2,'0')}</span>${s}</div>`).join('');
 document.querySelector('#year').textContent=new Date().getFullYear();
